@@ -1,7 +1,7 @@
 #ifndef GERENCIADORCLIENTES_H
 #define GERENCIADORCLIENTES_H
 
-#include "../../GerenciadorBase.h"
+#include "../GerenciadorBase.h"
 #include "Cliente.h"
 #include <iostream>
 
@@ -43,7 +43,7 @@ public:
             this->editarItem(id, clienteAtualizado);
             std::cout << "Cliente atualizado: " << novoNome << std::endl;
         } else {
-            std::cerr << "Cliente com ID " << id << " não encontrado!" << std::endl;
+            std::cerr << "Cliente com ID " << id << " nao encontrado!" << std::endl;
         }
     }
 

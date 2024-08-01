@@ -1,2 +1,1 @@
-pneu,asdasd,10,10,NÃO PERECÍVEL
-Pneu,Aro 20,50,240,NÃO PERECÍVEL
+Pneu,Aro 29,50,80,NAO PERECIVEL

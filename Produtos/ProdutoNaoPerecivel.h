@@ -9,7 +9,7 @@ public:
         : Produto(n, d, q, p, id) {}
 
     std::string getTipo() const override {
-        return "Não Perecível";
+        return "Nao Perecivel";
     }
 };
 

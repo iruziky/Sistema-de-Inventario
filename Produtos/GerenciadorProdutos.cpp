@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "GerenciadorProdutos.h"
 
 GerenciadorProdutos::GerenciadorProdutos() {
@@ -16,12 +17,12 @@ void GerenciadorProdutos::salvarProdutos() {
                         << produto->descricao << ","
                         << produto->quantidade << ","
                         << produto->preco << ","
-                        << static_cast<ProdutoPerecivel*>(produto.get())->dataValidade << ",Perecível" << std::endl;
+                        << static_cast<ProdutoPerecivel*>(produto.get())->dataValidade << ",Perecivel" << std::endl;
             } else if (dynamic_cast<ProdutoNaoPerecivel*>(produto.get())) {
                 arquivo << produto->nome << ","
                         << produto->descricao << ","
                         << produto->quantidade << ","
-                        << produto->preco << ",NÃO PERECÍVEL" << std::endl;
+                        << produto->preco << ",NAO PERECIVEL" << std::endl;
             }
         }
         arquivo.close();
@@ -51,10 +52,10 @@ void GerenciadorProdutos::carregarProdutos() {
 
             int id = gerarId();
 
-            if (tipo == "Perecível") {
+            if (tipo == "Perecivel") {
                 std::getline(iss, dataValidade);
                 produtos.push_back(std::make_unique<ProdutoPerecivel>(nome, descricao, quantidade, preco, dataValidade, id));
-            } else if (tipo == "NÃO PERECÍVEL") {
+            } else if (tipo == "NAO PERECIVEL") {
                 produtos.push_back(std::make_unique<ProdutoNaoPerecivel>(nome, descricao, quantidade, preco, id));
             }
         }
@@ -90,7 +91,7 @@ void GerenciadorProdutos::adicionarProduto() {
 
     std::cout << "Digite o nome do produto: ";
     std::cin >> nome;
-    std::cout << "Digite a descrição do produto: ";
+    std::cout << "Digite a descricao do produto: ";
     std::cin.ignore();
     std::getline(std::cin, descricao);
     std::cout << "Digite a quantidade do produto: ";
@@ -125,7 +126,7 @@ void GerenciadorProdutos::listarProdutos() {
     std::cout << "Lista de Produtos:" << std::endl;
     for (const auto& produto : produtos) {
         std::cout << produto->getTipo() << ": " << produto->nome 
-                  << ", Descrição: " << produto->descricao 
+                  << ", Descricao: " << produto->descricao 
                   << ", Quantidade: " << produto->quantidade 
                   << ", Preço: " << produto->preco 
                   << ", ID: " << produto->id;
@@ -133,5 +134,52 @@ void GerenciadorProdutos::listarProdutos() {
             std::cout << ", Data de Validade: " << static_cast<ProdutoPerecivel*>(produto.get())->dataValidade;
         }
         std::cout << std::endl;
+    }
+}
+
+void GerenciadorProdutos::editarProduto(int id) {
+    auto it = std::find_if(produtos.begin(), produtos.end(), [id](const std::unique_ptr<Produto>& p) { return p->id == id; });
+    if (it != produtos.end()) {
+        std::string nome, descricao, dataValidade;
+        double preco;
+        int quantidade;
+        char tipoProduto;
+
+        std::cout << "Digite o novo nome do produto: ";
+        std::cin >> nome;
+        std::cout << "Digite a nova descricao do produto: ";
+        std::cin.ignore();
+        std::getline(std::cin, descricao);
+        std::cout << "Digite a nova quantidade do produto: ";
+        std::cin >> quantidade;
+        std::cout << "Digite o novo preço do produto: ";
+        std::cin >> preco;
+
+        std::cout << "É um produto perecível? (s/n): ";
+        std::cin >> tipoProduto;
+
+        if (tipoProduto == 's' || tipoProduto == 'S') {
+            std::cout << "Digite a nova data de validade (DD/MM/AAAA): ";
+            std::cin >> dataValidade;
+            *it = std::make_unique<ProdutoPerecivel>(nome, descricao, quantidade, preco, dataValidade, id);
+        } else {
+            *it = std::make_unique<ProdutoNaoPerecivel>(nome, descricao, quantidade, preco, id);
+        }
+
+        salvarProdutos();
+        std::cout << "Produto editado: " << nome << " (ID: " << id << ")" << std::endl;
+    } else {
+        std::cerr << "Produto com ID " << id << " não encontrado!" << std::endl;
+    }
+}
+
+void GerenciadorProdutos::removerProduto(int id) {
+    auto it = std::remove_if(produtos.begin(), produtos.end(), [id](const std::unique_ptr<Produto>& p) { return p->id == id; });
+    if (it != produtos.end()) {
+        produtos.erase(it, produtos.end());
+        salvarProdutos();
+        std::cout << "Produto com ID " << id << " removido." << std::endl;
+    } else {
+        std::cerr << "Produto com ID " << id << " não encontrado!" << std::endl;
     }
 }

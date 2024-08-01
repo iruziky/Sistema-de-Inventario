@@ -1,7 +1,7 @@
 #ifndef GERENCIADORFUNCIONARIOS_H
 #define GERENCIADORFUNCIONARIOS_H
 
-#include "../../GerenciadorBase.h"
+#include "../GerenciadorBase.h"
 #include "Funcionario.h"
 #include <iostream>
 
@@ -13,17 +13,42 @@ public:
         std::string nome, cargo;
         int idade;
 
-        std::cout << "Digite o nome do funcionário: ";
+        std::cout << "Digite o nome do funcionario: ";
         std::cin >> nome;
-        std::cout << "Digite a idade do funcionário: ";
+        std::cout << "Digite a idade do funcionario: ";
         std::cin >> idade;
-        std::cout << "Digite o cargo do funcionário: ";
+        std::cout << "Digite o cargo do funcionario: ";
         std::cin >> cargo;
 
         int id = this->gerarId();
         Funcionario novoFuncionario(nome, idade, id, cargo);
         this->adicionarItem(novoFuncionario);
-        std::cout << "Funcionário adicionado: " << nome << " (ID: " << id << ")" << std::endl;
+        std::cout << "Funcionario adicionado: " << nome << " (ID: " << id << ")" << std::endl;
+    }
+
+    void editarFuncionario() {
+        this->listarItens();
+        int id;
+        std::cout << "Digite o ID do funcionario a ser editado: ";
+        std::cin >> id;
+
+        if (this->existeItem(id)) {
+            std::string novoNome, novoCargo;
+            int novaIdade;
+
+            std::cout << "Digite o novo nome do funcionario: ";
+            std::cin >> novoNome;
+            std::cout << "Digite a nova idade do funcionario: ";
+            std::cin >> novaIdade;
+            std::cout << "Digite o novo cargo do funcionario: ";
+            std::cin >> novoCargo;
+
+            Funcionario funcionarioAtualizado(novoNome, novaIdade, id, novoCargo);
+            this->editarItem(id, funcionarioAtualizado);
+            std::cout << "Funcionario atualizado: " << novoNome << std::endl;
+        } else {
+            std::cerr << "Funcionario com ID " << id << " nao encontrado!" << std::endl;
+        }
     }
 
     void listarFuncionarios() {
@@ -32,31 +57,6 @@ public:
 
     bool existeFuncionario(int id) {
         return this->existeItem(id);
-    }
-
-    void editarFuncionario() {
-        this->listarItens();
-        int id;
-        std::cout << "Digite o ID do funcionário a ser editado: ";
-        std::cin >> id;
-
-        if (this->existeItem(id)) {
-            std::string novoNome, novoCargo;
-            int novaIdade;
-
-            std::cout << "Digite o novo nome do funcionário: ";
-            std::cin >> novoNome;
-            std::cout << "Digite a nova idade do funcionário: ";
-            std::cin >> novaIdade;
-            std::cout << "Digite o novo cargo do funcionário: ";
-            std::cin >> novoCargo;
-
-            Funcionario funcionarioAtualizado(novoNome, novaIdade, id, novoCargo);
-            this->editarItem(id, funcionarioAtualizado);
-            std::cout << "Funcionário atualizado: " << novoNome << std::endl;
-        } else {
-            std::cerr << "Funcionário com ID " << id << " não encontrado!" << std::endl;
-        }
     }
 
     void removerFuncionario(int id) {

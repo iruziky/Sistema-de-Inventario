@@ -10,17 +10,17 @@ GerenciadorVendas::GerenciadorVendas(GerenciadorClientes& gc, GerenciadorFuncion
 
 void GerenciadorVendas::adicionarVenda(int idCliente, int idFuncionario, int idProduto, double precoFinal) {
     if (!gerenciadorClientes.existeCliente(idCliente)) {
-        std::cerr << "Cliente com ID " << idCliente << " não encontrado!" << std::endl;
+        std::cerr << "Cliente com ID " << idCliente << " nao encontrado!" << std::endl;
         return;
     }
 
     if (!gerenciadorFuncionarios.existeFuncionario(idFuncionario)) {
-        std::cerr << "Funcionário com ID " << idFuncionario << " não encontrado!" << std::endl;
+        std::cerr << "Funcionario com ID " << idFuncionario << " nao encontrado!" << std::endl;
         return;
     }
 
     if (!gerenciadorProdutos.existeProduto(idProduto)) {
-        std::cerr << "Produto com ID " << idProduto << " não encontrado!" << std::endl;
+        std::cerr << "Produto com ID " << idProduto << " nao encontrado!" << std::endl;
         return;
     }
 
@@ -29,6 +29,60 @@ void GerenciadorVendas::adicionarVenda(int idCliente, int idFuncionario, int idP
     
     salvarVendas();
     std::cout << "Venda registrada com sucesso!" << std::endl;
+}
+
+void GerenciadorVendas::listarVendas() const {
+    for (const auto& venda : vendas) {
+        std::cout << "ID Cliente: " << venda.idCliente
+                  << ", ID Funcionario: " << venda.idFuncionario
+                  << ", ID Produto: " << venda.idProduto
+                  << ", Preco Final: " << venda.precoFinal << std::endl;
+    }
+}
+
+void GerenciadorVendas::editarVenda(int idVenda, int novoIdCliente, int novoIdFuncionario, int novoIdProduto, double novoPrecoFinal) {
+    for (auto& venda : vendas) {
+        if (venda.idCliente == idVenda) { // Aqui você pode querer usar um ID específico para a venda
+            if (!gerenciadorClientes.existeCliente(novoIdCliente)) {
+                std::cerr << "Cliente com ID " << novoIdCliente << " nao encontrado!" << std::endl;
+                return;
+            }
+
+            if (!gerenciadorFuncionarios.existeFuncionario(novoIdFuncionario)) {
+                std::cerr << "Funcionario com ID " << novoIdFuncionario << " nao encontrado!" << std::endl;
+                return;
+            }
+
+            if (!gerenciadorProdutos.existeProduto(novoIdProduto)) {
+                std::cerr << "Produto com ID " << novoIdProduto << " nao encontrado!" << std::endl;
+                return;
+            }
+
+            venda.idCliente = novoIdCliente;
+            venda.idFuncionario = novoIdFuncionario;
+            venda.idProduto = novoIdProduto;
+            venda.precoFinal = novoPrecoFinal;
+
+            salvarVendas();
+            std::cout << "Venda editada com sucesso!" << std::endl;
+            return;
+        }
+    }
+    std::cerr << "Venda com ID " << idVenda << " nao encontrada!" << std::endl;
+}
+
+void GerenciadorVendas::removerVenda(int idVenda) {
+    auto it = std::remove_if(vendas.begin(), vendas.end(), [idVenda](const Venda& venda) {
+        return venda.idCliente == idVenda; // Aqui também pode-se usar um ID específico de venda
+    });
+
+    if (it != vendas.end()) {
+        vendas.erase(it, vendas.end());
+        salvarVendas();
+        std::cout << "Venda removida com sucesso!" << std::endl;
+    } else {
+        std::cerr << "Venda com ID " << idVenda << " nao encontrada!" << std::endl;
+    }
 }
 
 void GerenciadorVendas::salvarVendas() {
@@ -68,4 +122,3 @@ void GerenciadorVendas::carregarVendas() {
         std::cerr << "Erro ao abrir o arquivo para carregar." << std::endl;
     }
 }
-

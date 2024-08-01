@@ -9,7 +9,7 @@
 
 class GerenciadorProdutos {
 private:
-    const std::string arquivoProdutos = "../Arquivos_de_Texto/produtos.txt";
+    const std::string arquivoProdutos = "Arquivos_de_Texto/produtos.txt";
     std::vector<std::unique_ptr<Produto>> produtos;
 
     void salvarProdutos();
@@ -21,6 +21,8 @@ public:
     void adicionarProduto();
     void listarProdutos();
     bool existeProduto(int id);
+    void editarProduto(int id);
+    void removerProduto(int id);
 };
 
 #endif // GERENCIADORPRODUTOS_H

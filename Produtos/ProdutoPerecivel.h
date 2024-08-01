@@ -11,7 +11,7 @@ public:
         : Produto(n, d, q, p, id), dataValidade(v) {}
 
     std::string getTipo() const override {
-        return "Perecível";
+        return "Perecivel";
     }
 };
 
