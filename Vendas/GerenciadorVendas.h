@@ -9,7 +9,7 @@
 
 class GerenciadorVendas {
 private:
-    const std::string arquivoVendas = "vendas.txt";
+    const std::string arquivoVendas = "../Arquivos_de_Texto/vendas.txt";
     std::vector<Venda> vendas;
     GerenciadorClientes& gerenciadorClientes;
     GerenciadorFuncionarios& gerenciadorFuncionarios;

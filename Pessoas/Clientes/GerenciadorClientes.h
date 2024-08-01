@@ -7,7 +7,7 @@
 
 class GerenciadorClientes : public GerenciadorBase<Cliente> {
 public:
-    GerenciadorClientes() : GerenciadorBase("../../Arquivos_de_Texto/clientes.txt") {}
+    GerenciadorClientes() : GerenciadorBase("Arquivos_de_Texto/clientes.txt") {}
 
     void adicionarCliente() {
         std::string nome;

@@ -7,7 +7,7 @@
 
 class GerenciadorFuncionarios : public GerenciadorBase<Funcionario> {
 public:
-    GerenciadorFuncionarios() : GerenciadorBase("../../Arquivos_de_Texto/funcionarios.txt") {}
+    GerenciadorFuncionarios() : GerenciadorBase("Arquivos_de_Texto/funcionarios.txt") {}
 
     void adicionarFuncionario() {
         std::string nome, cargo;
