@@ -9,12 +9,12 @@
 
 class GerenciadorProdutos {
 private:
-    const std::string arquivoProdutos = "produtos.txt";
+    const std::string arquivoProdutos = "../Arquivos_de_Texto/produtos.txt";
     std::vector<std::unique_ptr<Produto>> produtos;
 
     void salvarProdutos();
     void carregarProdutos();
-    int gerarId(); // Novo método para gerar ID
+    int gerarId();
 
 public:
     GerenciadorProdutos();

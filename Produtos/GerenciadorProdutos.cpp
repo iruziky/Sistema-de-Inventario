@@ -4,7 +4,7 @@
 #include "GerenciadorProdutos.h"
 
 GerenciadorProdutos::GerenciadorProdutos() {
-    carregarProdutos();  // Carregar produtos ao iniciar o gerenciador
+    carregarProdutos();
 }
 
 void GerenciadorProdutos::salvarProdutos() {
@@ -44,12 +44,12 @@ void GerenciadorProdutos::carregarProdutos() {
             std::getline(iss, nome, ',');
             std::getline(iss, descricao, ',');
             iss >> quantidade;
-            iss.ignore(); // Ignora a vírgula
+            iss.ignore();
             iss >> preco;
-            iss.ignore(); // Ignora a vírgula
+            iss.ignore();
             std::getline(iss, tipo);
 
-            int id = gerarId(); // Gera um ID ao carregar produtos
+            int id = gerarId();
 
             if (tipo == "Perecível") {
                 std::getline(iss, dataValidade);
@@ -63,23 +63,22 @@ void GerenciadorProdutos::carregarProdutos() {
 }
 
 int GerenciadorProdutos::gerarId() {
-    // Gera o próximo ID com base no maior ID existente
     int maiorId = 0;
     for (const auto& produto : produtos) {
         if (produto->id > maiorId) {
             maiorId = produto->id;
         }
     }
-    return maiorId + 1; // Retorna o próximo ID
+    return maiorId + 1;
 }
 
 bool GerenciadorProdutos::existeProduto(int id) {
     for (const auto& produto : produtos) {
-        if (produto->id == id) { // Acesso ao ID do produto
-            return true; // Produto encontrado
+        if (produto->id == id) {
+            return true;
         }
     }
-    return false; // Produto não encontrado
+    return false;
 }
 
 void GerenciadorProdutos::adicionarProduto() {
@@ -92,7 +91,7 @@ void GerenciadorProdutos::adicionarProduto() {
     std::cout << "Digite o nome do produto: ";
     std::cin >> nome;
     std::cout << "Digite a descrição do produto: ";
-    std::cin.ignore(); // Ignora a nova linha anterior
+    std::cin.ignore();
     std::getline(std::cin, descricao);
     std::cout << "Digite a quantidade do produto: ";
     std::cin >> quantidade;
@@ -102,7 +101,7 @@ void GerenciadorProdutos::adicionarProduto() {
     std::cout << "É um produto perecível? (s/n): ";
     std::cin >> tipoProduto;
 
-    int id = gerarId(); // Gera o ID automaticamente
+    int id = gerarId();
 
     if (tipoProduto == 's' || tipoProduto == 'S') {
         std::string dataValidade;
@@ -113,7 +112,7 @@ void GerenciadorProdutos::adicionarProduto() {
         produtos.push_back(std::make_unique<ProdutoNaoPerecivel>(nome, descricao, quantidade, preco, id));
     }
 
-    salvarProdutos();  // Salvar após adicionar um produto
+    salvarProdutos();
     std::cout << "Produto adicionado: " << nome << " (ID: " << id << ")" << std::endl;
 }
 
@@ -129,7 +128,7 @@ void GerenciadorProdutos::listarProdutos() {
                   << ", Descrição: " << produto->descricao 
                   << ", Quantidade: " << produto->quantidade 
                   << ", Preço: " << produto->preco 
-                  << ", ID: " << produto->id; // Exibe o ID do produto
+                  << ", ID: " << produto->id;
         if (dynamic_cast<ProdutoPerecivel*>(produto.get())) {
             std::cout << ", Data de Validade: " << static_cast<ProdutoPerecivel*>(produto.get())->dataValidade;
         }

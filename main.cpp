@@ -1,23 +1,23 @@
 #include <iostream>
-#include <sstream> // Adicione esta linha
-#include "GerenciadorClientes.h"
-#include "GerenciadorFuncionarios.h"
-#include "GerenciadorProdutos.h"
-#include "GerenciadorVendas.h"
+#include <sstream>
+#include "Pessoas/Clientes/GerenciadorClientes.h"
+#include "Pessoas/Funcionarios/GerenciadorFuncionarios.h"
+#include "Produtos/GerenciadorProdutos.h"
+#include "Vendas/GerenciadorVendas.h"
 
 int main() {
     GerenciadorClientes gerenciadorClientes;
     GerenciadorFuncionarios gerenciadorFuncionarios;
-    GerenciadorProdutos gerenciadorProdutos; // Instância do gerenciador de produtos
-    GerenciadorVendas gerenciadorVendas(gerenciadorClientes, gerenciadorFuncionarios, gerenciadorProdutos); // Cria a instância do gerenciador de vendas
+    GerenciadorProdutos gerenciadorProdutos;
+    GerenciadorVendas gerenciadorVendas(gerenciadorClientes, gerenciadorFuncionarios, gerenciadorProdutos);
     int opcao;
 
     do {
         std::cout << "\nMenu Principal:\n";
         std::cout << "1. Gerenciar Clientes\n";
         std::cout << "2. Gerenciar Funcionários\n";
-        std::cout << "3. Gerenciar Produtos\n"; // Nova opção para produtos
-        std::cout << "4. Registrar Venda\n"; // Nova opção para registrar vendas
+        std::cout << "3. Gerenciar Produtos\n";
+        std::cout << "4. Registrar Venda\n";
         std::cout << "5. Sair\n";
         std::cout << "Escolha uma opção: ";
         std::cin >> opcao;
@@ -30,7 +30,7 @@ int main() {
                     std::cout << "1. Adicionar Cliente\n";
                     std::cout << "2. Editar Cliente\n";
                     std::cout << "3. Listar Clientes\n";
-                    std::cout << "4. Remover Cliente\n"; // Nova opção para remover cliente
+                    std::cout << "4. Remover Cliente\n";
                     std::cout << "5. Voltar\n";
                     std::cout << "Escolha uma opção: ";
                     std::cin >> opCliente;
@@ -43,7 +43,7 @@ int main() {
                             int idCliente;
                             std::cout << "Digite o ID do cliente a ser removido: ";
                             std::cin >> idCliente;
-                            gerenciadorClientes.removerCliente(idCliente); // Chama a função de remover cliente
+                            gerenciadorClientes.removerCliente(idCliente);
                             break;
                         }
                         case 5: break;
@@ -57,18 +57,36 @@ int main() {
                 do {
                     std::cout << "\nMenu de Funcionários:\n";
                     std::cout << "1. Adicionar Funcionário\n";
-                    std::cout << "2. Listar Funcionários\n";
-                    std::cout << "3. Voltar\n";
+                    std::cout << "2. Editar Funcionário\n";
+                    std::cout << "3. Listar Funcionários\n";
+                    std::cout << "4. Remover Funcionário\n";
+                    std::cout << "5. Voltar\n";
                     std::cout << "Escolha uma opção: ";
                     std::cin >> opFuncionario;
 
                     switch (opFuncionario) {
-                        case 1: gerenciadorFuncionarios.adicionarFuncionario(); break;
-                        case 2: gerenciadorFuncionarios.listarFuncionarios(); break;
-                        case 3: break;
-                        default: std::cerr << "Opção inválida! Tente novamente." << std::endl;
+                        case 1: 
+                            gerenciadorFuncionarios.adicionarFuncionario(); 
+                            break;
+                        case 2: 
+                            gerenciadorFuncionarios.editarFuncionario(); 
+                            break;
+                        case 3: 
+                            gerenciadorFuncionarios.listarFuncionarios(); 
+                            break;
+                        case 4: {
+                            int idFuncionario;
+                            std::cout << "Digite o ID do funcionário a ser removido: ";
+                            std::cin >> idFuncionario;
+                            gerenciadorFuncionarios.removerFuncionario(idFuncionario); 
+                            break;
+                        }
+                        case 5: 
+                            break;
+                        default: 
+                            std::cerr << "Opção inválida! Tente novamente." << std::endl;
                     }
-                } while (opFuncionario != 3);
+                } while (opFuncionario != 5);
                 break;
             }
             case 3: {
@@ -94,38 +112,30 @@ int main() {
                 int idCliente, idFuncionario, idProduto;
                 double preco;
 
-                // Solicitar ID do cliente
                 std::cout << "Digite o ID do cliente: ";
                 std::cin >> idCliente;
-                // Verificar se o ID do cliente existe
                 if (!gerenciadorClientes.existeCliente(idCliente)) {
                     std::cerr << "Cliente não encontrado!" << std::endl;
                     break;
                 }
 
-                // Solicitar ID do funcionário
                 std::cout << "Digite o ID do funcionário: ";
                 std::cin >> idFuncionario;
-                // Verificar se o ID do funcionário existe
                 if (!gerenciadorFuncionarios.existeFuncionario(idFuncionario)) {
                     std::cerr << "Funcionário não encontrado!" << std::endl;
                     break;
                 }
 
-                // Solicitar ID do produto
                 std::cout << "Digite o ID do produto: ";
                 std::cin >> idProduto;
-                // Verificar se o ID do produto existe
                 if (!gerenciadorProdutos.existeProduto(idProduto)) {
                     std::cerr << "Produto não encontrado!" << std::endl;
                     break;
                 }
 
-                // Solicitar preço da venda
                 std::cout << "Digite o preço de venda: ";
                 std::cin >> preco;
 
-                // Adicionar venda
                 gerenciadorVendas.adicionarVenda(idCliente, idFuncionario, idProduto, preco);
                 break;
             }

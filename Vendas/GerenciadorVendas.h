@@ -3,9 +3,9 @@
 
 #include <vector>
 #include "Venda.h"
-#include "GerenciadorClientes.h"
-#include "GerenciadorFuncionarios.h"
-#include "GerenciadorProdutos.h"
+#include "../Pessoas/Clientes/GerenciadorClientes.h"
+#include "../Pessoas/Funcionarios/GerenciadorFuncionarios.h"
+#include "../Produtos/GerenciadorProdutos.h"
 
 class GerenciadorVendas {
 private:

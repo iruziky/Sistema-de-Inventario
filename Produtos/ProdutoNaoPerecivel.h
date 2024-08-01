@@ -6,7 +6,7 @@
 class ProdutoNaoPerecivel : public Produto {
 public:
     ProdutoNaoPerecivel(std::string n, std::string d, int q, double p, int id) 
-        : Produto(n, d, q, p, id) {} // Adiciona o id ao construtor
+        : Produto(n, d, q, p, id) {}
 
     std::string getTipo() const override {
         return "Não Perecível";

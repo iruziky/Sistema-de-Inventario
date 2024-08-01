@@ -1,2 +1,0 @@
-iru,20,1,dono
-Razuke,45,2,Vendedor
